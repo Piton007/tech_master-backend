@@ -8,5 +8,5 @@ export async function  verify(token){
     }
 }
 export function create(user){
-    return "Bearer "+sign({rol:user.rol,id:user.id},process.env.JWT_KEY,{expiresIn:"1d"})
+    return sign({rol:user.rol,id:user.id},process.env.JWT_KEY,{expiresIn:"7d"})
 }

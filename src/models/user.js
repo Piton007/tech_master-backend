@@ -1,6 +1,5 @@
 import {Model,DataTypes} from "sequelize"
 import {ROLS,PRIORITY} from "@/share/constants"
-import Incident from "./incident"
 
 export default class User extends Model {}
 
@@ -20,7 +19,8 @@ export function init(connection){
             type:DataTypes.STRING,
             validate:{
                 isEmail:true
-            }
+            },
+            unique:true
         },
         dni: {
             type:DataTypes.STRING,
@@ -29,7 +29,8 @@ export function init(connection){
                 notNull:true,
                 notEmpty:true,
                 
-            }
+            },
+            unique:true
         },
         password:{
             type: DataTypes.STRING

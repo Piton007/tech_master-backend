@@ -14,7 +14,7 @@ export default class API {
         app.use(cors({origin:"*",credentials:true}))
         app.use(express.json())
         app.use("/api/users",Controllers.userController())
-        app.use("/api/incidents",Controllers.incidentController())
+        app.use("/api/requerimientos",Controllers.requerimientoController())
         http.createServer(app).listen(this.port,()=>{
             console.log(`HTTP running on ${this.port}`)
         })

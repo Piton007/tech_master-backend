@@ -1,11 +1,10 @@
 import {Model,DataTypes} from "sequelize"
 import {TASK_STATUS} from "@/share/constants" 
-import User from "./user"
 
-export default class Incident extends Model {}
+export default class Requerimiento extends Model {}
 
 export function init(connection){
-    Incident.init({
+    Requerimiento.init({
         code:{
             type: DataTypes.STRING
         },
@@ -22,12 +21,15 @@ export function init(connection){
         document_urns: {
             type:DataTypes.TEXT
         },
-        created_at: {
-            type: DataTypes.STRING
+        fechaAsignacion:{
+            type:DataTypes.DATE
+        },
+        fechaCierre:{
+            type:DataTypes.DATE
         }
         
     },{
-        modelName: 'incident',
+        modelName: 'requerimiento',
         sequelize: connection
     })
     

@@ -9,20 +9,17 @@ export function init(connection){
         comment: {
             type: DataTypes.STRING,
         },
-        status: {
-            type: DataTypes.STRING,
-            values:[...TASK_STATUS]
-        },
-        created_at:{
+        event:{
             type: DataTypes.STRING
-        },
-        categoria_3: {
-            type:DataTypes.STRING,
         },
         tipo:{
             type: DataTypes.STRING,
             values:["incidente","requerimiento"]
-        }
+        },
+        status: {
+            type: DataTypes.STRING,
+            values:[...TASK_STATUS]
+        },
         
     },{
         modelName: 'logs',

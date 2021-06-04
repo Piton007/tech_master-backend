@@ -1,7 +1,7 @@
-import incidentController from "./incidents"
+import requerimientoController from "./requerimientos"
 import userController from "./user"
 
 export default {
-    incidentController,
+    requerimientoController,
     userController
 }

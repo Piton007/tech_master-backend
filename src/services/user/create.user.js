@@ -9,7 +9,16 @@ export default class CreateUserService {
 
     async run(dto) {
         this.validateDTO(dto)
-        return await this.create(dto)
+        try {
+            
+            return await this.create(dto)  
+        } catch (error) {
+            if(error.name === "SequelizeUniqueConstraintError"){
+                throw new Error(JSON.stringify({msg:"Existe datos duplicados",errors:error.fields}))
+            }
+            throw error
+        }
+
     }
 
     async create(dto){
@@ -29,7 +38,8 @@ export default class CreateUserService {
         return {
             id:user.id,
             token: createToken(user),
-            password:_password
+            password:_password,
+            email:user.email
         }
     }
 
@@ -37,8 +47,8 @@ export default class CreateUserService {
 
     validateDTO(dto){
         const errors = {}
-        if(!dto.name)
-            errors["name"] = "*Campo obligatorio"
+        if(!dto.first_name)
+            errors["first_name"] = "*Campo obligatorio"
         if(!(ROLS.some(x=>dto.rol === x)))
             errors["rol"] = "*Campo invalido"
         if(!dto.last_name)
@@ -49,13 +59,6 @@ export default class CreateUserService {
             errors["priority"] = "*Campo obligatorio"
         if(!dto.email)
             errors["email"] ="*Campo obligatorio"
-
-        if (dto.rol !== "admin") {
-            if (dto.auth.rol !== "admin" && dto.tipo === "tech" )
-            errors["tipo"] = "Privilegios insuficientes"
-            if (!(["admin","tech"].some(x=>dto.auth.rol === x)))
-                errors[tipo] == "Privilegios insuficientes"
-        }
         if (Object.keys(errors).length > 0)
             throw new Error (JSON.stringify({msg:"Invalid Form",errors}))
     }
