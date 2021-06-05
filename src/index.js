@@ -11,7 +11,7 @@ const dbmanager =  new DBManager()
 
 async function main(){
     await dbmanager.init()
-    await new API(process.env.API_PORT).init()
+    await new API(process.env.PORT || 3500).init()
 }
 
 try {

@@ -7,7 +7,7 @@
     "node": "14.x"
   },
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node",
+    "start": "nodemon src/index.js --exec babel-node",
     "build": "npx babel src -d dist"
   },
   "keywords": [],
