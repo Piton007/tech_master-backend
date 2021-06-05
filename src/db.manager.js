@@ -5,7 +5,7 @@ export let connection
 
 export default class DBManager {
     constructor(config){
-        this.sequelize = new Sequelize(`postgres://${config.user}:${config.pass}@${config.host}:${config.port}/${config.db}`)
+        this.sequelize = new Sequelize(process.env.DB_STRING)
         connection = this.sequelize
     }
 

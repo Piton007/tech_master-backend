@@ -1,7 +1,7 @@
 import CreateUserService from "@/services/user/create.user.js"
 import LoginUserService from "@/services/user/login.user.js"
 import GetAllUserService from "@/services/user/get.all.user.js"
-import {all,onlyAdmin} from "@/api/middleware/auth"
+import {all,onlyAdmin,onlyTech} from "@/api/middleware/auth"
 import {Router} from "express"
 
 
@@ -40,7 +40,7 @@ export default function (){
 
     })
 
-    router.post("/",onlyAdmin,async (req,res)=>{
+    router.post("/",onlyTech,async (req,res)=>{
         const dto = req.body
         try {
             const response = await createService.run(dto)

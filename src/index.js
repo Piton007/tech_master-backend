@@ -7,15 +7,7 @@ import API from "@/api"
 
 config()
 
-const dbConfig = {
-    user: process.env.USER_DB,
-    pass: process.env.PASS_DB,
-    host: process.env.HOST_DB,
-    port: process.env.PORT_DB,
-    db: process.env.DB_NAME
-}
-
-const dbmanager =  new DBManager(dbConfig)
+const dbmanager =  new DBManager()
 
 async function main(){
     await dbmanager.init()

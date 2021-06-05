@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "This is helpdesk to help teachers or volunteers in schools",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "dev": "nodemon src/index.js --exec babel-node",
     "build": "npx babel src -d dist"
@@ -12,6 +15,7 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.14.2",
