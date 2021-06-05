@@ -1,5 +1,4 @@
 import Model from "@/models"
-import {Op} from "sequelize"
 
 export default class GetAllUserService {
     constructor(){
@@ -12,9 +11,13 @@ export default class GetAllUserService {
 
     async _getAll(adminId){
         return (await Model.User.findAll({
-            where:{
-                [Op.or]:[{rol:"tech"},{id:adminId}]
-            }
+            include:[
+                {model: Model.UserLogs,as:"log", include:[
+                    {model:Model.Requerimiento,as:"requerimiento",include:[
+                        {model:Model.User,as:"reportedBy",attributes:["firstName","lastName","rol","email","dni"]},
+                        {model:Model.User,as:"supervisedBy",attributes:["firstName","lastName","rol","email","dni"]}
+                    ]} ]}
+            ]
         }))
     }
 
@@ -29,7 +32,7 @@ export default class GetAllUserService {
             dni:user.dni,
             priority:user.priority,
             educationalInstitution:user.educationalInstitution,
-
+            log:user.log
         }
     }
  }

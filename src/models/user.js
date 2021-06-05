@@ -47,7 +47,7 @@ export function init(connection){
         },
         educationalInstitution:{
             type:DataTypes.STRING
-        }
+        },
     },{
         modelName: 'user',
         sequelize: connection

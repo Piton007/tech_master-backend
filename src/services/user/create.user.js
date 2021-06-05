@@ -3,6 +3,8 @@ import Model from "@/models"
 import generate from "generate-password"
 import {create as createToken} from "@/share/token.helper"
 import bcrypt from "bcrypt"
+import {connection} from "@/db.manager"
+
 
 
 export default class CreateUserService {
@@ -24,17 +26,7 @@ export default class CreateUserService {
     async create(dto){
         const _password = (!dto.password) ? generate.generate({length:10,numbers:true}): dto.password
         const password = await bcrypt.hash(_password,12)
-        const user = await Model.User.create({
-            firstName: dto.first_name,
-            lastName: dto.last_name,
-            rol: dto.rol,
-            email: dto.email,
-            dni:dto.dni,
-            password,
-            confirmed: !!dto.password,
-            priority: dto.priority,
-            educationalInstitution: dto.educational_institution,
-        })
+        const user = await this._create({...dto,newPass:password})
         return {
             id:user.id,
             token: createToken(user),
@@ -43,7 +35,33 @@ export default class CreateUserService {
         }
     }
 
+    async _create(dto){
+        return connection.transaction((t)=>{
+            return Model.User.create({
+                firstName: dto.first_name,
+                lastName: dto.last_name,
+                rol: dto.rol,
+                email: dto.email,
+                dni:dto.dni,
+                password: dto.newPass,
+                confirmed: !!dto.password,
+                priority: dto.priority,
+                educationalInstitution: dto.educational_institution,
+            },{transaction:t}).then((user)=>{
+                if(!dto.requerimiento_id) return user
+                return Model.UserLogs.create({
+                        requerimiento_id:dto.requerimiento_id,
+                        user_id:user.id
+                    },{transaction:t}).then((log)=>{
+                        return user
+                    })
+                
+               
+            })
+        })
+    }
 
+  
 
     validateDTO(dto){
         const errors = {}

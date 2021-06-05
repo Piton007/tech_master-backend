@@ -1,14 +1,17 @@
 import User,{init as userInit} from "./user"
 import Category,{init as categoryInit} from "./category"
 import Requerimiento,{init as requerimientoInit} from "./requerimiento"
-import Logs, {init as logsInit} from "./logs" 
+import Logs, {init as logsInit} from "./logs"
+import UserLogs, {init as userLogsInit} from "./user.log" 
+
 
 
 export default {
     User,
     Category,
     Requerimiento,
-    Logs
+    Logs,
+    UserLogs
 }
 
 export function init(connection){
@@ -16,6 +19,7 @@ export function init(connection){
     categoryInit(connection)
     requerimientoInit(connection)
     logsInit(connection)
+    userLogsInit(connection)
     associations()
 }
 function associations (){
@@ -32,4 +36,10 @@ function associations (){
 
     Requerimiento.hasMany(Logs,{foreignKey:"requerimiento_id"})
     Logs.belongsTo(Requerimiento,{foreignKey:"requerimiento_id"})
+
+    User.hasOne(UserLogs,{foreignKey:"user_id",as:"log"})
+    UserLogs.belongsTo(User,{foreignKey:"user_id",as:"user"})
+
+    UserLogs.belongsTo(Requerimiento,{foreignKey:"requerimiento_id",as:"requerimiento"})
+    Requerimiento.hasOne(UserLogs,{foreignKey:"requerimiento_id",as:"user_log"})
 }
