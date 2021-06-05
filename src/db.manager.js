@@ -5,7 +5,15 @@ export let connection
 
 export default class DBManager {
     constructor(config){
-        this.sequelize = new Sequelize(process.env.DB_STRING)
+        this.sequelize = new Sequelize(process.env.DB_STRING,{
+            dialect:'postgres',
+            dialectOptions:{
+                ssl:{
+                    require:true,
+                    rejectUnauthorized: false
+                }
+            }
+        })
         connection = this.sequelize
     }
 
