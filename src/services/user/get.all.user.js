@@ -1,4 +1,5 @@
 import Model from "@/models"
+import dayjs from "dayjs"
 
 export default class GetAllUserService {
     constructor(){
@@ -21,18 +22,20 @@ export default class GetAllUserService {
         }))
     }
 
-
     assembleToResponse(user){
+
         return {
             id:user.id,
             firstName:user.firstName,
             lastName:user.lastName,
             rol:user.rol,
             email:user.email,
+            fechaCreacion: dayjs(user.createdAt).format("YYYY/MM/DD HH:mm:ss"),
             dni:user.dni,
             priority:user.priority,
             educationalInstitution:user.educationalInstitution,
-            log:user.log
+            log: user.log
         }
     }
+    
  }

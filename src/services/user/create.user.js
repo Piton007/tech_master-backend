@@ -3,6 +3,7 @@ import Model from "@/models"
 import generate from "generate-password"
 import {create as createToken} from "@/share/token.helper"
 import bcrypt from "bcrypt"
+import dayjs from "dayjs"
 import {connection} from "@/db.manager"
 
 
@@ -31,7 +32,15 @@ export default class CreateUserService {
             id:user.id,
             token: createToken(user),
             password:_password,
-            email:user.email
+            fechaCreacion: dayjs(user.createdAt).format("YYYY/MM/DD HH:mm:ss"),
+            email:user.email,
+            firstName:user.firstName,
+            lastName:user.lastName,
+            rol:user.rol,
+            dni:user.dni,
+            priority:user.priority,
+            educationalInstitution:user.educationalInstitution,
+            log:user.log
         }
     }
 
@@ -53,7 +62,18 @@ export default class CreateUserService {
                         requerimiento_id:dto.requerimiento_id,
                         user_id:user.id
                     },{transaction:t}).then((log)=>{
-                        return user
+                        return Model.UserLogs.findAll({
+                            where:{id:log.id},
+                            include:[
+                            {model:Model.Requerimiento,as:"requerimiento",
+                            include:[
+                                {model:Model.User,as:"reportedBy",attributes:["firstName","lastName","rol","email","dni"]},
+                                {model:Model.User,as:"supervisedBy",attributes:["firstName","lastName","rol","email","dni"]}
+                            ]}],transaction:t
+                        }).then(logs=>{
+                            const [_log] = logs
+                            return {...user.dataValues,log:_log}
+                        })
                     })
                 
                
