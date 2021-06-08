@@ -37,9 +37,9 @@ export default class VerifyRequerimientoService{
                     const [{dataValues:requerimiento}] = requerimientos
                     return Model.Logs.create({
                         comment: dto.comment,
-                        tipo: 'requerimientoe',
+                        tipo: 'requerimiento',
                         status:newStatus.status,
-                        event: newStatus.event,
+                        event: `${requerimiento.reportedBy.firstName} ${(newStatus.status==='closed') ? 'ha aceptado la resolución' : 'ha rechazado la resolución'}`,
                         requerimiento_id:requerimiento.id
                     },{transaction:t}).then((log)=>{
                     return {...requerimiento,logs:[...requerimiento.logs,log.dataValues]}

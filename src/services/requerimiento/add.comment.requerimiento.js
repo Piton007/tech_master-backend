@@ -1,46 +1,51 @@
-import {connection} from "@/db.manager.js"
 import Model from "@/models"
+import {connection} from "@/db.manager.js"
 import DateHelper from "@/share/timeHelpers"
 
 
-export default class ResolveRequerimientoService {
-    constructor(){
+export default class AddCommentRequerimiento {
 
-    }
-
+    
     async run(dto){
-        this.validateDTO(dto)
-        const requerimiento = await this.resolve(dto)
+        const requerimiento = await this.addComment(dto)
         return this.assembleToResponse(requerimiento)
     }
 
-    resolve(dto){
+    addComment(dto){
         return connection.transaction(t=>{
-            return Model.Requerimiento.update({
-                status:"resolved"
-            },{where:[{code:dto.requerimiento_code}],transaction:t})
-            .then((update)=>{
-                return Model.Requerimiento.findAll({
-                    where:{code:dto.requerimiento_code},
-                    transaction:t,
-                    include:[
-                        {model:Model.User,as:"reportedBy"},
-                        {model:Model.User, as: "supervisedBy"},
-                        Model.Logs
-                    ]
-                }).then((requerimientos)=>{
-                    const [{dataValues:requerimiento}] = requerimientos
-                    return Model.Logs.create({
-                        comment: dto.comment,
-                        status:"resolved",
-                        tipo: 'requerimiento',
-                        event: `${requerimiento.supervisedBy.firstName} ha resuelto el requerimiento`,
-                        requerimiento_id:requerimiento.id
-                    },{transaction:t}).then((log)=>{
-                    return {...requerimiento,logs:[...requerimiento.logs,log.dataValues]}
-                })
-            })
-        })   
+            return Model.Requerimiento.findAll(
+            {
+                where:{code:dto.requerimiento_code},
+                transaction:t,
+                include:[
+                    {model:Model.User,as:"reportedBy"},
+                    {model:Model.User, as: "supervisedBy"},
+                    Model.Logs
+                ]
+            }
+            ).then(req=>{
+                return Model.User.findAll(
+                    {where:{id:dto.user_id},
+                    transaction:t}
+                    ).then(_user=>{
+                        const [{dataValues:requerimiento}] = req
+                        const [{dataValues:user}] = _user
+                        return Model.Logs.create({
+                            comment:`
+                            ${user.firstName} con email: ${user.email} y dni ${user.dni} 
+                            ${dto.comment}`,
+                            status:"comment",
+                            tipo:"requerimiento",
+                            requerimiento_id:requerimiento.id,
+                            event:`${user.firstName} ha comentado`,
+                        },{transaction:t}).then(log => {
+                            return {...requerimiento,logs:[...requerimiento.logs,log.dataValues]}
+                        }).catch(error=>{
+                            console.log(error)
+                            return requerimiento
+                        })
+                    })
+            }) 
         })
     }
 
@@ -50,6 +55,8 @@ export default class ResolveRequerimientoService {
             errors["requerimiento_code"] = dto.requerimiento_code
         if(!dto.comment)
             errors["comment"] = dto.comment
+        if(!dto.user_id)
+            errors["user_id"] = dto.user_id
         if(Object.keys(errors).length > 0)
             throw new Error({msg:"Invalid Form",errors})
     }

@@ -5,7 +5,7 @@ import CreateRequerimientoService from "@/services/requerimiento/create.requerim
 import AssignRequerimientoService from "@/services/requerimiento/assign.requerimiento.js"
 import ResolveRequerimientoService from "@/services/requerimiento/resolve.requerimiento.js"
 import VerifyRequerimientoService from "@/services/requerimiento/verify.requerimiento.js"
-
+import AddCommentService from "@/services/requerimiento/add.comment.requerimiento.js"
 
 export default function (){
     const getAllRequerimientos = new GetAllRequerimientoService()
@@ -13,6 +13,7 @@ export default function (){
     const assignRequerimiento = new AssignRequerimientoService()
     const resolveRequerimientoService = new ResolveRequerimientoService()
     const verifyRequerimiento = new VerifyRequerimientoService()
+    const addComment = new AddCommentService()
 
     const router = new Router()
     router.get("/",all,async (req,res)=>{
@@ -64,6 +65,17 @@ export default function (){
         const dto = req.body
         try {
             const response = await verifyRequerimiento.run(dto)
+            res.status(200).send({data:response})
+        } catch (error) {
+            console.log(error)
+            res.status(500).send(error)
+        }
+    })
+
+    router.post("/comment",all,async(req,res)=>{
+        const dto = req.body
+        try {
+            const response = await addComment.run(dto)
             res.status(200).send({data:response})
         } catch (error) {
             console.log(error)

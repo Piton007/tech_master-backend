@@ -64,10 +64,12 @@ export default class CreateRequerimientoService {
                         const [requerimiento] = x
                         return Model.Logs.create({
                             requerimiento_id:id,
-                            event:"Creación de requerimiento",
+                            event:`${requerimiento.reportedBy.firstName} ha solicitado un requerimiento`,
                             tipo:"requerimiento",
                             status:"pending",
-                            comment:`Ha sido creado por ${requerimiento.reportedBy.firstName} con dni ${requerimiento.reportedBy.dni}`
+                            comment:`
+                            evento: Creación de requerimiento
+                            Ha sido creado por ${requerimiento.reportedBy.firstName} con dni ${requerimiento.reportedBy.dni}`
                         },{transaction:t}).then((log)=>{
                             return {...requerimiento,logs:[log]}
                         })

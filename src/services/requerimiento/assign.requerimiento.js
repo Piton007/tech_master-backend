@@ -42,8 +42,10 @@ export default class AssignRequerimientoService{
                                 const [{dataValues:requerimiento}] = y
                                 return Model.Logs.create({
                                     requerimiento_id:requerimiento.id,
-                                    event:"Cambio de estado a En curso",
-                                    comment:`El Requerimientoe ha sido asignado a ${requerimiento.supervisedBy.firstName} con email: ${requerimiento.supervisedBy.email}`,
+                                    event:`${requerimiento.supervisedBy.firstName} ha tomado el requerimiento`,
+                                    comment:`
+                                    El Requerimiento ha sido asignado a ${requerimiento.supervisedBy.firstName} con email: ${requerimiento.supervisedBy.email}
+                                    `,
                                     tipo:"requerimiento",
                                     status:"in_process"
                                 },{transaction:t}).then((log)=>{
