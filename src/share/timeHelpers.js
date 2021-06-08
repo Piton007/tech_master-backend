@@ -1,8 +1,11 @@
 import dayjs from "dayjs"
+import dayjsUTC from "dayjs/plugin/utc"
+dayjs.extend(dayjsUTC)
+
 
 export default class DateHelper {
     constructor(value){
-        this.date = dayjs(value)
+        this.date = dayjs(value).utcOffset(-5)
     }
 
     toString(){
