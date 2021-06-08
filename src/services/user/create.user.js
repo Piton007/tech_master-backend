@@ -5,6 +5,8 @@ import {create as createToken} from "@/share/token.helper"
 import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 import {connection} from "@/db.manager"
+import DateHelper from "@/share/timeHelpers"
+
 
 
 
@@ -32,7 +34,7 @@ export default class CreateUserService {
             id:user.id,
             token: createToken(user),
             password:_password,
-            fechaCreacion: dayjs(user.createdAt).format("YYYY/MM/DD HH:mm:ss"),
+            fechaCreacion: new DateHelper(user.createdAt).toString(),
             email:user.email,
             firstName:user.firstName,
             lastName:user.lastName,

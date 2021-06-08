@@ -1,5 +1,6 @@
 import Model from "@/models"
-import dayjs from "dayjs"
+import DateHelper from "@/share/timeHelpers"
+
 
 export default class GetAllRequerimientos {
     constructor(){
@@ -42,9 +43,9 @@ export default class GetAllRequerimientos {
             categories: requerimiento.categories.split(";"),
             description:requerimiento.description,
             status: requerimiento.status,
-            fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : dayjs(requerimiento.fechaCierre).format("YYYY/MM/DD HH:mm:ss"),
-            fechaAsignacion:(!requerimiento.fechaAsignacion)? requerimiento.fechaAsignacion : dayjs(requerimiento.fechaAsignacion).format("YYYY/MM/DD HH:mm:ss"),
-            fechaCreacion: dayjs(requerimiento.createdAt).format("YYYY/MM/DD HH:mm:ss"),
+            fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : new DateHelper(requerimiento.fechaCierre).toString(),
+            fechaAsignacion:(!requerimiento.fechaAsignacion)? requerimiento.fechaAsignacion : new DateHelper(requerimiento.fechaAsignacion).toString(),
+            fechaCreacion: new DateHelper(requerimiento.createdAt).toString(),
             creator: {
                 rol:requerimiento.reportedBy.rol,
                 dni:requerimiento.reportedBy.dni,
@@ -52,7 +53,7 @@ export default class GetAllRequerimientos {
                 lastName: requerimiento.reportedBy.lastName,
                 priority: requerimiento.reportedBy.priority
             },
-            logs:requerimiento.logs.map(x=>({status:x.status,event:x.event,tipo:x.tipo,comment:x.comment,fechaCreacion:dayjs(x.createdAt).format("DD/MM/YYYY HH:mm:ss")})),
+            logs:requerimiento.logs.map(x=>({status:x.status,event:x.event,tipo:x.tipo,comment:x.comment,fechaCreacion: new DateHelper(x.createdAt).toString()})),
             supervisedBy: (!!requerimiento.supervisedBy) ?  {
                 id:requerimiento.supervisedBy.id,
                 rol:requerimiento.supervisedBy.rol,

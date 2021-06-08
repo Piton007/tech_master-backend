@@ -1,6 +1,7 @@
 import {connection} from "@/db.manager"
 import Model from "@/models"
-import dayjs from "dayjs"
+import DateHelper from "@/share/timeHelpers"
+
 
 export default class VerifyRequerimientoService{
     constructor(){
@@ -49,7 +50,7 @@ export default class VerifyRequerimientoService{
     }
 
     getNewStatus(dto){
-        return (dto.result === "accept") ? {status:"closed",date:new Date(),event:"El requerimiento se ha cerrado"} : {status:"in_process",event:"El requerimientoe ha sido rechazado"}
+        return (dto.result === "accept") ? {status:"closed",date:DateHelper.now().value(),event:"El requerimiento se ha cerrado"} : {status:"in_process",event:"El requerimientoe ha sido rechazado"}
     }
 
     validateDTO(dto){
@@ -69,9 +70,9 @@ export default class VerifyRequerimientoService{
             categories:requerimiento.categories.split(";"),
             description:requerimiento.description,
             status: requerimiento.status,
-            fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : dayjs(requerimiento.fechaCierre).format("YYYY/MM/DD HH:mm:ss"),
-            fechaAsignacion:(!requerimiento.fechaAsignacion)? requerimiento.fechaAsignacion : dayjs(requerimiento.fechaAsignacion).format("YYYY/MM/DD HH:mm:ss"),
-            fechaCreacion: dayjs(requerimiento.createdAt).format("YYYY/MM/DD HH:mm:ss"),
+            fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : new DateHelper(requerimiento.fechaCierre).toString(),
+            fechaAsignacion:(!requerimiento.fechaAsignacion)? requerimiento.fechaAsignacion : new DateHelper(requerimiento.fechaAsignacion).toString(),
+            fechaCreacion: new DateHelper(requerimiento.createdAt).toString(),
             creator: {
                 rol:requerimiento.reportedBy.rol,
                 dni:requerimiento.reportedBy.dni,
@@ -79,7 +80,7 @@ export default class VerifyRequerimientoService{
                 lastName: requerimiento.reportedBy.lastName,
                 priority: requerimiento.reportedBy.priority
             },
-            logs:requerimiento.logs.map(x=>({status:x.status,event:x.event,tipo:x.tipo,comment:x.comment,fechaCreacion:dayjs(x.createdAt).format("DD/MM/YYYY HH:mm:ss")})),
+            logs:requerimiento.logs.map(x=>({status:x.status,event:x.event,tipo:x.tipo,comment:x.comment,fechaCreacion: new DateHelper(x.createdAt).toString()})),
             supervisedBy: {
                 id:requerimiento.supervisedBy.id,
                 email:requerimiento.supervisedBy.email,

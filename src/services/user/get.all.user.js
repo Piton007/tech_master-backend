@@ -1,5 +1,5 @@
 import Model from "@/models"
-import dayjs from "dayjs"
+import DateHelper from "@/share/timeHelpers"
 
 export default class GetAllUserService {
     constructor(){
@@ -30,7 +30,7 @@ export default class GetAllUserService {
             lastName:user.lastName,
             rol:user.rol,
             email:user.email,
-            fechaCreacion: dayjs(user.createdAt).format("YYYY/MM/DD HH:mm:ss"),
+            fechaCreacion: new DateHelper(user.createdAt).toString(),
             dni:user.dni,
             priority:user.priority,
             educationalInstitution:user.educationalInstitution,

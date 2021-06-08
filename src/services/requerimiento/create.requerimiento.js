@@ -1,6 +1,7 @@
 import Model from "@/models"
-import dayjs from "dayjs"
 import {connection} from "@/db.manager"
+import DateHelper from "@/share/timeHelpers"
+
 
 export default class CreateRequerimientoService {
     constructor(){
@@ -15,9 +16,9 @@ export default class CreateRequerimientoService {
                 categories:dto.categories,
                 description:dto.description,
                 status: requerimiento.dataValues.status,
-                fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : dayjs(requerimiento.fechaCierre).format("YYYY/MM/DD HH:mm:ss"),
-                fechaAsignacion:(!requerimiento.fechaAsignacion)? requerimiento.fechaAsignacion : dayjs(requerimiento.fechaAsignacion).format("YYYY/MM/DD HH:mm:ss"),
-                fechaCreacion: dayjs(requerimiento.dataValues.createdAt).format("YYYY/MM/DD HH:mm:ss"),
+                fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : new DateHelper(requerimiento.fechaCierre).toString(),
+                fechaAsignacion:(!requerimiento.fechaAsignacion)? requerimiento.fechaAsignacion : new DateHelper(requerimiento.fechaAsignacion).toString(),
+                fechaCreacion: new DateHelper(requerimiento.dataValues.createdAt).toString(),
                 creator: {
                     rol:requerimiento.reportedBy.rol,
                     dni:requerimiento.reportedBy.dni,
@@ -25,7 +26,7 @@ export default class CreateRequerimientoService {
                     lastName: requerimiento.reportedBy.lastName,
                     priority: requerimiento.reportedBy.priority
                 },
-                logs:requerimiento.logs.map(x=>({status:x.status,event:x.event,tipo:x.tipo,comment:x.comment,fechaCreacion:dayjs(x.createdAt).format("DD/MM/YYYY HH:mm:ss")})),
+                logs:requerimiento.logs.map(x=>({status:x.status,event:x.event,tipo:x.tipo,comment:x.comment,fechaCreacion: new DateHelper(x.createdAt).toString()})),
                 supervisedBy: requerimiento.supervisedBy
             }
         } catch (error) {
