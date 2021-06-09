@@ -58,6 +58,7 @@ export default class ResolveRequerimientoService {
         return {
             id:requerimiento.id,
             code:requerimiento.code,
+            documents:(!requerimiento.document_urns) ? [] : requerimiento.document_urns.split(";"),
             categories:requerimiento.categories.split(";"),
             description:requerimiento.description,
             status: requerimiento.status,

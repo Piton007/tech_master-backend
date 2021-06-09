@@ -60,6 +60,7 @@ export default class AssignRequerimientoService{
             id:requerimiento.id,
             code:requerimiento.code,
             categories:requerimiento.categories.split(";"),
+            documents:(!requerimiento.document_urns) ? [] : requerimiento.document_urns.split(";"),
             description:requerimiento.description,
             status: requerimiento.status,
             fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : new DateHelper(requerimiento.fechaCierre).toString(),

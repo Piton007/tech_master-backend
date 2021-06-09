@@ -14,6 +14,7 @@ export default class CreateRequerimientoService {
                 id:requerimiento.dataValues.id,
                 code:requerimiento.dataValues.code,
                 categories:dto.categories,
+                documents:(!requerimiento.document_urns) ? [] : requerimiento.document_urns.split(";"),
                 description:dto.description,
                 status: requerimiento.dataValues.status,
                 fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : new DateHelper(requerimiento.fechaCierre).toString(),
@@ -42,6 +43,7 @@ export default class CreateRequerimientoService {
                 categories: dto.categories.join(";"),
                 description:dto.description,
                 status: "pending",
+                document_urns:dto.documents.join(";"),
                 user_id:dto.auth.id,
                 supervisor_id:dto.supervisor_id
             },{transaction:t}).then(requerimiento=>{
@@ -103,6 +105,9 @@ export default class CreateRequerimientoService {
         }
         if(!dto.description){
             errors["description"] = "*Campo obligatorio"
+        }
+        if(!(dto.documents instanceof Array)){
+            errors["documents"] = "*Campo obligatorio"
         }
         if(Object.keys(errors).length > 0)
             throw new Error({msg:"Invalid Form",errors})
