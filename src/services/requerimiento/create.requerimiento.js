@@ -14,7 +14,7 @@ export default class CreateRequerimientoService {
                 id:requerimiento.dataValues.id,
                 code:requerimiento.dataValues.code,
                 categories:dto.categories,
-                documents:(!requerimiento.document_urns) ? [] : requerimiento.document_urns.split(";"),
+                documents:(!requerimiento.dataValues.document_urns) ? [] : requerimiento.dataValues.document_urns.split(";"),
                 description:dto.description,
                 status: requerimiento.dataValues.status,
                 fechaCierre: (!requerimiento.fechaCierre)? requerimiento.fechaCierre : new DateHelper(requerimiento.fechaCierre).toString(),
