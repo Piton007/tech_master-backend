@@ -10,11 +10,14 @@ export const all = (req,res, next) => {
                 id
             }
             next()
-        } else throw new Error("Invalid Token")
+        } else throw new Error("La sesión ha expirado")
     } catch (error) {
         console.log(error)
         res.status(401).send({
-            message: "Invalid Authorization",
+            msg: "Error de autenticación",
+            errors:{
+                token:error.message
+            }
         })
     }
 }
@@ -31,10 +34,13 @@ export const onlyClient = (req,res, next) => {
                 id
             }
             next()
-        } else throw new Error("Token Inválido")
+        } else throw new Error("La sesión ha expirado")
     } catch (error) {
         res.status(401).send({
-            message: error,
+            msg: "Error de autenticación",
+            errors:{
+                token:error.message
+            }
         })
     }
 }
@@ -50,10 +56,13 @@ export const onlyTech = (req,res, next) => {
                 id
             }
             next()
-        } else throw new Error("Token Inválido")
+        } else throw new Error("La sesión ha expirado")
     } catch (error) {
         res.status(401).send({
-            message: error,
+            msg: "Error de autenticación",
+            errors:{
+                token:error.message
+            }
         })
     }
 }
@@ -70,10 +79,13 @@ export const onlyAdmin = (req,res, next) => {
                 id
             }
             next()
-        } else throw new Error("Token Inválido")
+        } else throw new Error("La sesión ha expirado")
     } catch (error) {
         res.status(401).send({
-            message: error,
+            msg: "Error de autenticación",
+            errors:{
+                token:error.message
+            }
         })
     }
 }

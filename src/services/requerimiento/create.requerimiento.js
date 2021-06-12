@@ -32,7 +32,7 @@ export default class CreateRequerimientoService {
             }
         } catch (error) {
             console.log(error)
-            throw new Error({msg:"Error during insert new requerimiento"},{requerimiento:"no created"})
+            throw new Error({msg:"Error al crear requerimiento",errors:{requerimiento:"no se pudo crear el requerimiento"}})
         }
     }
 

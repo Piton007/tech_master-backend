@@ -16,34 +16,35 @@ export default class LoginUserService {
             id:user.id,
             rol:user.rol,
             token: createToken(user),
-            email:user.email
+            email:user.email,
+            confirmed:user.confirmed
         }
 
     }
 
     async getUser(dto){
         
-        const user = Model.User.findOne({
+        const user = await Model.User.findOne({
             where:{email:dto.email}
         })
         if(!user)
-            throw new Error(JSON.stringify({msg:"Invalid Form",errors:{email:"No existe usuario con ese email"}}))
+            throw new Error(JSON.stringify({msg:"Error al iniciar sesión",errors:{email:"No existe usuario con ese email"}}))
         return user
     }
 
     async validatePassword(dto,user){
         const result = await bcrypt.compare(dto.password,user.password)
         if (!result)
-            throw new Error(JSON.stringify({msg:"Invalid Form",errors:{password:"Contraseña incorrecta"}}))
+            throw new Error(JSON.stringify({msg:"Error al iniciar sesión",errors:{'contraseña':"Contraseña incorrecta"}}))
     }
 
     validateDTO(dto){
         const errors = {}
         if(!dto.email)
-            errors["email"] = "*Campo obligatorio"
+            errors["email"] = "Email obligatorio"
         if(!dto.password)
-            errors["password"] = "*Campo obligatorio"
+            errors["password"] = "Contraseña obligatoria"
         if (Object.keys(errors).length > 0)
-            throw new Error (JSON.stringify({msg:"Invalid Form",errors}))
+            throw new Error (JSON.stringify({msg:"Error al iniciar sesión",errors}))
     }
 }

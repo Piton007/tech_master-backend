@@ -15,7 +15,7 @@ export default class AssignRequerimientoService{
             
         } catch (error) {
             console.log(error)
-            throw new Error({msg:"Error during assign"},{requerimiento:"no assigned"})
+            throw new Error({msg:"Error al asignar",errors:{requerimiento:"no se pudo asignar el requerimiento"}})
         }
        
     }
@@ -92,6 +92,6 @@ export default class AssignRequerimientoService{
         }
 
         if (Object.keys(errors).length > 0)
-            throw new Error("Invalid Form")
+            throw new Error("Invalid Form",errors)
     }
 }
