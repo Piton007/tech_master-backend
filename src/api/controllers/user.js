@@ -14,7 +14,7 @@ export default function (){
     const updatePassService = new UpdatePasswordService()
     const router = new Router()
 
-    router.get("/",onlyAdmin,async (req,res) => {
+    router.get("/",onlyTech,async (req,res) => {
         try {
 
             const response = await getAllService.run(req.body.auth)
@@ -77,6 +77,7 @@ export default function (){
 
     router.post("/change-password",onlyAdmin,async (req,res)=>{
         const dto = req.body
+        console.log(dto)
         try {
             await updatePassService.run(dto)
             res.status(200).send({})
