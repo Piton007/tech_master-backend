@@ -32,7 +32,6 @@ export default function (){
         dto.auth = {
             rol:"admin"
         }
-        dto.rol = "admin"
         const response = await createService.run(dto)
         return res.status(201).send(response)
         } catch (error) {
