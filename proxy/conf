@@ -1,0 +1,8 @@
+server {
+    listen       80;
+    server_name  localhost tecmentor.com www.techmentor.com;
+    location / {
+        proxy_pass   http://backend:3000;
+    }
+
+}
