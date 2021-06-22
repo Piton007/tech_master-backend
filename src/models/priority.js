@@ -1,26 +1,23 @@
 import {Model,DataTypes} from "sequelize"
 import DateHelper from "@/share/timeHelpers"
 
-export default class Category extends Model {}
+export default class Prioridad extends Model {}
 
 export function init(connection){
-    Category.init({
-        servicio: {
+    Prioridad.init({
+        label:{
             type: DataTypes.STRING,
             allowNull:false,
             validate:{
                 notEmpty:true
             }
         },
-        categoria: {
-            type: DataTypes.STRING,
+        sla:{
+            type: DataTypes.INTEGER,
             allowNull:false,
             validate:{
                 notEmpty:true
-            }
-        },
-        subcategoria:{
-            type: DataTypes.STRING
+            } 
         },
         createdAt:{
             type:DataTypes.DATE,
@@ -36,7 +33,7 @@ export function init(connection){
         }
         
     },{
-        modelName: 'categorias',
+        modelName: 'prioridades',
         sequelize: connection
     })
 }

@@ -1,26 +1,29 @@
 import {Model,DataTypes} from "sequelize"
+import {TASK_STATUS} from "@/share/constants" 
 import DateHelper from "@/share/timeHelpers"
 
-export default class Category extends Model {}
+export default class Incidente extends Model {}
 
 export function init(connection){
-    Category.init({
-        servicio: {
-            type: DataTypes.STRING,
-            allowNull:false,
-            validate:{
-                notEmpty:true
-            }
-        },
-        categoria: {
-            type: DataTypes.STRING,
-            allowNull:false,
-            validate:{
-                notEmpty:true
-            }
-        },
-        subcategoria:{
+    Incidente.init({
+        code:{
             type: DataTypes.STRING
+        },
+        description:{
+            type: DataTypes.TEXT
+        },
+        status: {
+            type: DataTypes.STRING,
+            values:[...TASK_STATUS]
+        },
+        document_urns: {
+            type:DataTypes.TEXT
+        },
+        fechaAsignacion:{
+            type:DataTypes.DATE
+        },
+        fechaCierre:{
+            type:DataTypes.DATE
         },
         createdAt:{
             type:DataTypes.DATE,
@@ -36,7 +39,8 @@ export function init(connection){
         }
         
     },{
-        modelName: 'categorias',
+        modelName: 'incidente',
         sequelize: connection
     })
+    
 }

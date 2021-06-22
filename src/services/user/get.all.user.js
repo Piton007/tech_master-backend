@@ -6,11 +6,15 @@ export default class GetAllUserService {
 
     }
 
-    async run ({id:adminId}){
-        return (await this._getAll(adminId)).map(this.assembleToResponse)
+    async run (dto){
+        if(dto.auth.rol === 'tech')
+            return (await this._getAll()).filter(x=>x.rol === 'tech').map(this.assembleToResponse)
+        if (dto.auth.rol === 'admin')
+            return (await this._getAll()).map(this.assembleToResponse)
+        return (await this._getAll()).filter(x=>x.rol === 'teacher' || x.rol === 'volunteer').map(this.assembleToResponse)
     }
 
-    async _getAll(adminId){
+    async _getAll(){
         return (await Model.User.findAll({
             include:[
                 {model: Model.UserLogs,as:"log", include:[

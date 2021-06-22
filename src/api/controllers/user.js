@@ -14,10 +14,10 @@ export default function (){
     const updatePassService = new UpdatePasswordService()
     const router = new Router()
 
-    router.get("/",onlyTech,async (req,res) => {
+    router.get("/",all,async (req,res) => {
         try {
 
-            const response = await getAllService.run(req.body.auth)
+            const response = await getAllService.run(req.body)
             return res.status(200).send(response)
         } catch (error) {
             console.log(error)

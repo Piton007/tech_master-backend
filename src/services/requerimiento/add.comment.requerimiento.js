@@ -62,6 +62,7 @@ export default class AddCommentRequerimiento {
     }
 
     assembleToResponse(requerimiento){
+        console.log(requerimiento)
         return {
             id:requerimiento.id,
             code:requerimiento.code,
@@ -80,7 +81,7 @@ export default class AddCommentRequerimiento {
                 priority: requerimiento.reportedBy.priority
             },
             logs:requerimiento.logs.map(x=>({status:x.status,event:x.event,tipo:x.tipo,comment:x.comment,fechaCreacion: new DateHelper(x.createdAt).toString()})),
-            supervisedBy: {
+            supervisedBy: (!requerimiento.supervisedBy) ? requerimiento.supervisedBy : {
                 id:requerimiento.supervisedBy.id,
                 email:requerimiento.supervisedBy.email,
                 rol:requerimiento.supervisedBy.rol,

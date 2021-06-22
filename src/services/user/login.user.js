@@ -15,6 +15,8 @@ export default class LoginUserService {
         return {
             id:user.id,
             rol:user.rol,
+            firstname:user.firstName,
+            lastname:user.lastName,
             token: createToken(user),
             email:user.email,
             confirmed:user.confirmed
