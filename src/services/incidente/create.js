@@ -83,7 +83,7 @@ export default class CreateIncidenteService {
                         transaction:t
                         
                     }).then((x)=>{
-                        const [incidente] = x
+                        const [{dataValues:incidente}] = x
                         return Model.IncidenteLogs.create({
                             incidente_id:id,
                             event:`${incidente.requestedBy.firstName} ha notificado un incidente`,
