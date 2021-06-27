@@ -19,6 +19,7 @@ export default class GetAllCategory {
 
     assembleToResponse(categoria){
         return {
+            id:categoria.id,
             servicio:categoria.servicio,
             categoria:categoria.categoria,
             subcategoria:categoria.subcategoria,
