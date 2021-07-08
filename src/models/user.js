@@ -33,6 +33,9 @@ export function init(connection){
             },
             unique:true
         },
+        cel:{
+            type:DataTypes.STRING,
+        },
         password:{
             type: DataTypes.STRING
         },

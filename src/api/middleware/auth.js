@@ -49,7 +49,7 @@ export const onlyTech = (req,res, next) => {
     try {
         if (!!token) {
             const {rol,id} = verify(token, process.env.JWT_KEY)
-            if (!(["tech","admin"].some(x=>x===rol)))
+            if (!(["tech","admin","tech_2"].some(x=>x===rol)))
                 throw new Error("Insuficientes privilegios")
             req.body.auth  = {
                 rol,

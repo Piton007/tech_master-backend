@@ -33,6 +33,7 @@ export default class GetAllUserService {
             firstName:user.firstName,
             lastName:user.lastName,
             rol:user.rol,
+            cel:user.cel,
             confirmed:user.confirmed,
             email:user.email,
             fechaCreacion: new DateHelper(user.createdAt).toString(),

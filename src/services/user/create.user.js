@@ -3,7 +3,6 @@ import Model from "@/models"
 import generate from "generate-password"
 import {create as createToken} from "@/share/token.helper"
 import bcrypt from "bcrypt"
-import dayjs from "dayjs"
 import {connection} from "@/db.manager"
 import DateHelper from "@/share/timeHelpers"
 
@@ -37,6 +36,7 @@ export default class CreateUserService {
             fechaCreacion: new DateHelper(user.createdAt).toString(),
             email:user.email,
             firstName:user.firstName,
+            cel:user.cel,
             lastName:user.lastName,
             confirmed:user.confirmed,
             rol:user.rol,
@@ -54,6 +54,7 @@ export default class CreateUserService {
                 lastName: dto.last_name,
                 rol: dto.rol,
                 email: dto.email,
+                cel:dto.cel,
                 dni:dto.dni,
                 password: dto.newPass,
                 confirmed: !!dto.password,
@@ -94,6 +95,8 @@ export default class CreateUserService {
             errors["rol"] = "Rol es obligatorio"
         if(!dto.last_name)
             errors["last_name"] = "Apellidos son obligatorios"
+        if(!dto.cel)
+            errors["celular"] = "Celular es obligatorio"
         if(!/^[0-9]{8}$/.test(dto.dni))
             errors["dni"] = "Dni válido"
         if( !(PRIORITY.some(x=> x ===  dto.priority)) )
