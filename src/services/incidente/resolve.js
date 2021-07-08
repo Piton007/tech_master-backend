@@ -17,7 +17,8 @@ export default class ResolveIncidenteService {
     resolve(dto){
         return connection.transaction(t=>{
             return Model.Incidente.update({
-                status:"resolved"
+                status:"resolved",
+                updatedAt: DateHelper.now().value()
             },{where:[{code:dto.incidente_code}],transaction:t})
             .then((update)=>{
                 return Model.Incidente.findAll({

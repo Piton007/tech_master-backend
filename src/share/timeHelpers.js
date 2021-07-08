@@ -12,6 +12,10 @@ export default class DateHelper {
         return this.date.format("YYYY/MM/DD HH:mm:ss")
     }
 
+    diff({date},unit="hour"){
+        return this.date.diff(date,unit)
+    }
+
     value(){
         return this.date.valueOf()
     }
