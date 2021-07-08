@@ -58,7 +58,7 @@ export default class GetAllIncidentes {
                 lastName: incidente.requestedBy.lastName,
                 priority: incidente.requestedBy.priority
             },
-            affected:{
+            affectedBy:{
                 rol:incidente.affectedBy.rol,
                 dni:incidente.affectedBy.dni,
                 firstName: incidente.affectedBy.firstName,

@@ -29,12 +29,11 @@ export default async function(){
                 {returning:true,where: [{id:x.id}],transaction:t}
             ).then(([rowsUpdated,[x]])=>{
                 const {dataValues:incidente} = x
-                return Model.Logs.create({
-                    comment: dto.comment,
+                return Model.IncidenteLogs.create({
+                    comment: "El incidente se ha cerrado automáticamente" ,
                     tipo: 'incidente',
                     status:'closed',
-                    event: `El incidente se ha cerrado automaticamente`,
-                    requerimiento_id:requerimiento.id,
+                    event: `El incidente se ha cerrado `,
                     incidente_id:incidente.id,
                 },{transaction:t})
             })
