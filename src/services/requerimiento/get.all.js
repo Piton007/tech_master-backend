@@ -8,7 +8,7 @@ export default class GetAllRequerimientos {
     }
 
     async run (dto){
-        if (!(["admin","tech"].some(x=> x === dto.auth.rol)))
+        if (!(["admin","tech","tech_2"].some(x=> x === dto.auth.rol)))
             return (await this._getByUserId(dto.auth.id)).map(this.assembleToResponse)
         return (await this._getAll()).map(this.assembleToResponse)
     }

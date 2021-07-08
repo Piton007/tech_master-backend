@@ -7,9 +7,7 @@ export default class GetAllUserService {
     }
 
     async run (dto){
-        if(dto.auth.rol === 'tech')
-            return (await this._getAll()).filter(x=>x.rol === 'tech').map(this.assembleToResponse)
-        if (dto.auth.rol === 'admin')
+        if (dto.auth.rol === 'admin' || dto.auth.rol.includes('tech'))
             return (await this._getAll()).map(this.assembleToResponse)
         return (await this._getAll()).filter(x=>x.rol === 'teacher' || x.rol === 'volunteer').map(this.assembleToResponse)
     }
