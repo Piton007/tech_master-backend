@@ -5,12 +5,14 @@ import Logs, {init as logsInit} from "./logs"
 import UserLogs, {init as userLogsInit} from "./user.log"
 import Incidente, {init as incidenteInit} from "./incident"
 import Prioridad, {init as prioridadInit} from "./priority"
-import IncidenteLogs, {init as incidenteLogsInit} from "./incidentLogs"   
+import IncidenteLogs, {init as incidenteLogsInit} from "./incidentLogs"
+import Blog, {init as blogInit} from "./blog"   
 
 
 
 export default {
     User,
+    Blog,
     Categoria,
     Requerimiento,
     Logs,
@@ -29,6 +31,7 @@ export function init(connection){
     incidenteInit(connection)
     prioridadInit(connection)
     incidenteLogsInit(connection)
+    blogInit(connection)
     associations()
 }
 function associations (){

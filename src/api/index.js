@@ -18,6 +18,7 @@ export default class API {
         app.use("/api/categorias",Controllers.categoriaController())
         app.use("/api/prioridades",Controllers.prioridadController())
         app.use("/api/incidentes",Controllers.incidenteController())
+        app.use("/api/blogs",Controllers.blogController())
         http.createServer(app).listen(this.port,()=>{
             console.log(`HTTP running on ${this.port}`)
         })
