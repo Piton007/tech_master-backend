@@ -49,11 +49,10 @@ export default function (){
         }
 
     })
-    router.delete("/",onlyAdmin,async (req,res)=>{
+    router.delete("/:id",onlyAdmin,async (req,res)=>{
        
         try {
-        const dto = req.body
-        const response = await deleteService.run(dto)
+        const response = await deleteService.run({id:req.params.id})
         return res.status(200).send(response)
         } catch (error) {
             console.log(error)

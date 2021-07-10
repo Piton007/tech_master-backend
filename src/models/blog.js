@@ -13,7 +13,7 @@ export function init(connection){
             }
         },
         content: {
-            type: DataTypes.TEXT,
+            type: DataTypes.TEXT('long') ,
             allowNull:false,
             validate:{
                 notEmpty:true

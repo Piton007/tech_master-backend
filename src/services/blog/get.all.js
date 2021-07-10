@@ -17,7 +17,7 @@ export default class GetAllBlog {
             id:blog.id,
             title:blog.title,
             content:blog.content,
-            fechaCreacion:new DateHelper(blog.updatedAt).toString()
+            fechaActualizacion:new DateHelper(blog.updatedAt).toString()
         }
     }
 }

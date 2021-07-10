@@ -1,10 +1,11 @@
 import Model from "@/models"
+import DateHelper from "@/share/timeHelpers"
 
 
 export default class EditBlog {
     async run(dto){
         this.validateDTO(dto)
-        const blog = await this.edit(dto)
+        const [_,[{dataValues:blog}]] = await this.edit(dto)
         return {
             id:blog.id,
             title: blog.title,
@@ -22,7 +23,7 @@ export default class EditBlog {
                 content:dto.content,
                 updatedAt:DateHelper.now().value()
             },
-            {returning: true,where:[{id:dto.blog_id}]}
+            {returning: true,where:[{id:dto.id}]}
         )
         
     }
@@ -31,7 +32,7 @@ export default class EditBlog {
 
     validateDTO(dto){
         const errors = {}
-        if(!dto.blog_id)
+        if(!dto.id)
             errors["id"] = "El identificador es obligatorio"
         if(!dto.title)
             errors["titulo"] = "El titulo es obligatorio"

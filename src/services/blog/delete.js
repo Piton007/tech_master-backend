@@ -14,7 +14,7 @@ export default class RemoveBlog {
     delete(dto){
         return Model.Blog.destroy({
             where:{
-                id:dto.blog_id
+                id:dto.id
             }
         })
         
@@ -24,7 +24,7 @@ export default class RemoveBlog {
 
     validateDTO(dto){
         const errors = {}
-        if(!dto.blog_id)
+        if(!dto.id)
             errors["id"] = "El identificador es obligatorio"
         if(Object.keys(errors).length > 0)
             throw new Error(JSON.stringify({msg:"Error al crear un blog",errors}))
