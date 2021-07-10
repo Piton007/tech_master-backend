@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
   db:
-    image: postgres
+    build: postgresql
     restart: always
     secrets:
       - db-password
