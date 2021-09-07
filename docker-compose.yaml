@@ -2,33 +2,5 @@ version: "3.7"
 services:
   backend:
     build: .
-    secrets:
-      - db-password
     ports: 
       - 3000:3500
-    depends_on:
-      - db
-  db:
-    build: postgresql
-    restart: always
-    secrets:
-      - db-password
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=helpdesk
-      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-    expose:
-      - 5432
-    
-  proxy:
-    build: proxy
-    ports:
-      - 3500:80
-    depends_on: 
-      - backend
-volumes:
-  db-data:
-secrets:
-  db-password:
-    file: postgresql/password.txt
